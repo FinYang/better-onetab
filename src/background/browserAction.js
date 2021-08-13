@@ -10,9 +10,7 @@ const actions = {
   'store-all-in-all-windows': tabs.storeAllTabInAllWindows,
 }
 
-const getBrowserActionHandler = action => {
-  return actions[action] || new Function()
-}
+const getBrowserActionHandler = action => actions[action] || new Function()
 
 export const updateBrowserAction = async (action, tmp = false) => {
   if (!tmp) window.currentBrowserAction = action
@@ -32,7 +30,7 @@ export const updateBrowserAction = async (action, tmp = false) => {
     if (!window.opts.openTabListWhenNewTab) return
     window.coverBrowserAction = async activeInfo => {
       const tab = await browser.tabs.get(activeInfo.tabId)
-      if (['about:home', 'about:newtab', 'chrome://newtab/'].includes(tab.url)) {
+      if (['about:home', 'about:newtab', 'chrome://newtab/', 'edge://newtab/'].includes(tab.url)) {
         return updateBrowserAction('show-list', true)
       } else {
         return updateBrowserAction(window.currentBrowserAction)
