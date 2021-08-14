@@ -8,7 +8,7 @@ listManager.init()
 
 const getAllInWindow = windowId => browser.tabs.query({windowId})
 
-const openTabLists = async () => {
+const openTabLists = async (listTabAtive = true) => {
   // open only one in a window
   const window = await browser.runtime.getBackgroundPage()
   if (!_.isObject(window.appTabId)) window.appTabId = {}
@@ -20,12 +20,15 @@ const openTabLists = async () => {
     const tab = tabs.find(tab => tab.id === window.appTabId[windowId])
     if (tab) {
       if (tab.url.startsWith(tabListsUrl)) {
-        return browser.tabs.update(tab.id, { active: true })
+        return browser.tabs.update(tab.id, { active: listTabAtive })
       }
       delete window.appTabId[windowId]
     }
   }
-  const createdTab = await browser.tabs.create({url: tabListsUrl})
+  const createdTab = await browser.tabs.create({
+    "url": tabListsUrl,
+    "pinned": true
+  })
   window.appTabId[windowId] = createdTab.id
 }
 
@@ -101,14 +104,25 @@ const storeSelectedTabs = async listIndex => {
 const storeAllTabs = async listIndex => {
   const tabs = await getAllTabsInCurrentWindow()
   const opts = await storage.getOptions()
-  if (opts.openTabListNoTab) await openTabLists()
+  if (opts.openTabListNoTab) {
+    await openTabLists()
+  } else {
+    await openTabLists(false)
+    await window.open("https://google.com")
+  }
+
   return storeTabs(tabs, listIndex)
 }
 
 const storeAllTabInAllWindows = async () => {
   const windows = await browser.windows.getAll()
   const opts = await storage.getOptions()
-  if (opts.openTabListNoTab) await openTabLists()
+  if (opts.openTabListNoTab) {
+    await openTabLists()
+  } else {
+    await openTabLists(false)
+    await window.open("https://google.com")
+  }
   const tasks = []
   for (const window of windows) {
     const task = getAllInWindow(window.id).then(storeTabs)
