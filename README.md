@@ -11,6 +11,20 @@
 <a href="https://gitter.im/better-onetab/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"><img src="https://img.shields.io/gitter/room/better-onetab/Lobby.svg?style=flat-square" alt="Join the chat at https://gitter.im/better-onetab/Lobby"></a>
 </p>
 
+```diff
+ -! Note !-
+```
+
+This version of better-onetab is forked from the [original repo](https://github.com/cnwangjie/better-onetab). I only added a few of my own preferences. __Any credit goes to the original author.__ For any issue not related to the functions I added (see below), please report to the original repo. Some day (in an alternate universe maybe) when I have the time, I might write up proper options for users to choose, and open a pull request.
+
+Changes:
+
+- "Open tab list when new tab" now works in Edge
+- The tab list now is a pinned tab
+- When "Open the tab list when store all tabs" option is disabled, store all tabs will still open an inactive (pinned) tab list and a new tab. 
+
+
+
 [中文README](./README.zh.md)
 
 ### A better onetab extension
