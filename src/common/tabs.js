@@ -26,8 +26,8 @@ const openTabLists = async (listTabAtive = true) => {
     }
   }
   const createdTab = await browser.tabs.create({
-    "url": tabListsUrl,
-    "pinned": true
+    url: tabListsUrl,
+    pinned: true
   })
   window.appTabId[windowId] = createdTab.id
 }
@@ -108,7 +108,10 @@ const storeAllTabs = async listIndex => {
     await openTabLists()
   } else {
     await openTabLists(false)
-    await window.open("https://google.com")
+    // await window.open('https://google.com')
+    await browser.tabs.create({
+      url: "chrome://newtab/"
+    })
   }
 
   return storeTabs(tabs, listIndex)
@@ -121,7 +124,9 @@ const storeAllTabInAllWindows = async () => {
     await openTabLists()
   } else {
     await openTabLists(false)
-    await window.open("https://google.com")
+    await browser.tabs.create({
+      url: "chrome://newtab/"
+    })
   }
   const tasks = []
   for (const window of windows) {
